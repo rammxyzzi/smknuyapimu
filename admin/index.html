@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Admin — SMK NU Ghofarona</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<div class="admin-shell">
+  <aside class="admin-sisi">
+    <div class="brand">
+      <div class="brand-mark">NG</div>
+      <div class="brand-text"><strong style="color:#fff;">Admin Panel</strong></div>
+    </div>
+    <nav class="admin-nav">
+      <a href="#ringkasan" class="aktif" data-tab="ringkasan">📊 Ringkasan</a>
+      <a href="#informasi" data-tab="informasi">📰 Informasi</a>
+      <a href="#presensi" data-tab="presensi">✅ Presensi</a>
+      <a href="#siswa" data-tab="siswa">🎓 Siswa</a>
+      <a href="#pengaturan" data-tab="pengaturan">⚙️ Pengaturan Lokasi</a>
+      <a href="#" id="btnKeluarAdmin" style="margin-top:20px; border-top:1px solid rgba(247,243,233,.15); padding-top:16px;">↩ Keluar</a>
+    </nav>
+  </aside>
+
+  <main class="admin-utama">
+    <div class="admin-topbar">
+      <h1 style="font-size:1.4rem; margin:0;">Dashboard Admin</h1>
+      <span id="adminEmail" style="font-size:.85rem; color:var(--tinta-lembut);"></span>
+    </div>
+
+    <div class="kartu-stat-grid">
+      <div class="kartu-stat">
+        <div class="angka" id="statTotalSiswa">–</div>
+        <div class="label">Total siswa terdaftar</div>
+      </div>
+      <div class="kartu-stat">
+        <div class="angka" id="statHadirHariIni">–</div>
+        <div class="label">Hadir hari ini</div>
+      </div>
+      <div class="kartu-stat">
+        <div class="angka" id="statTelatHariIni">–</div>
+        <div class="label">Telat hari ini</div>
+      </div>
+      <div class="kartu-stat">
+        <div class="angka" id="statInformasi">–</div>
+        <div class="label">Informasi dipublikasikan</div>
+      </div>
+    </div>
+
+    <!-- TAB: Informasi -->
+    <section id="tabInformasi" class="tab-konten">
+      <div class="panel">
+        <div class="panel-judul">
+          <h2>Tambah Informasi</h2>
+        </div>
+        <div class="pesan" id="pesanInformasi"></div>
+        <form id="formInformasi">
+          <div class="field">
+            <label for="judulInfo">Judul</label>
+            <input type="text" id="judulInfo" required placeholder="Contoh: Libur Semester Ganjil">
+          </div>
+          <div class="field">
+            <label for="kategoriInfo">Kategori</label>
+            <input type="text" id="kategoriInfo" placeholder="Pengumuman / Kegiatan / Prestasi">
+          </div>
+          <div class="field">
+            <label for="kontenInfo">Isi</label>
+            <textarea id="kontenInfo" rows="4" required placeholder="Tulis isi pengumuman di sini…"></textarea>
+          </div>
+          <button type="submit" class="btn btn-hijau">Publikasikan</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="panel-judul"><h2>Daftar Informasi</h2></div>
+        <table>
+          <thead><tr><th>Tanggal</th><th>Judul</th><th>Kategori</th><th>Aksi</th></tr></thead>
+          <tbody id="tabelInformasi"><tr><td colspan="4">Memuat…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB: Presensi -->
+    <section id="tabPresensi" class="tab-konten" style="display:none;">
+      <div class="panel">
+        <div class="panel-judul">
+          <h2>Presensi Hari Ini</h2>
+          <input type="date" id="filterTanggal" class="field" style="width:auto; padding:8px 12px; border-radius:8px; border:1.5px solid var(--garis);">
+        </div>
+        <table>
+          <thead><tr><th>Siswa</th><th>Waktu</th><th>Status</th><th>Jarak</th></tr></thead>
+          <tbody id="tabelPresensi"><tr><td colspan="4">Memuat…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB: Siswa -->
+    <section id="tabSiswa" class="tab-konten" style="display:none;">
+      <div class="panel">
+        <div class="panel-judul">
+          <h2>Daftar Siswa</h2>
+        </div>
+        <table>
+          <thead><tr><th>Nama</th><th>NISN</th><th>Kelas</th><th>Jurusan</th><th>Wajah Terdaftar</th></tr></thead>
+          <tbody id="tabelSiswa"><tr><td colspan="5">Memuat…</td></tr></tbody>
+        </table>
+      </div>
+      <p style="font-size:.85rem; color:var(--tinta-lembut);">
+        Akun siswa dibuat lewat Supabase Auth (email + password) oleh admin, lalu baris di tabel
+        <code>students</code> ditambahkan dengan id yang sama. Lihat README bagian "Menambah akun siswa".
+      </p>
+    </section>
+
+    <!-- TAB: Pengaturan Lokasi -->
+    <section id="tabPengaturan" class="tab-konten" style="display:none;">
+      <div class="panel">
+        <div class="panel-judul"><h2>Titik Lokasi &amp; Radius Sekolah</h2></div>
+        <div class="pesan" id="pesanPengaturan"></div>
+        <form id="formPengaturan">
+          <div class="field">
+            <label for="namaSekolahInput">Nama Sekolah</label>
+            <input type="text" id="namaSekolahInput">
+          </div>
+          <div class="field">
+            <label for="latInput">Latitude</label>
+            <input type="text" id="latInput" placeholder="-6.200000">
+          </div>
+          <div class="field">
+            <label for="lngInput">Longitude</label>
+            <input type="text" id="lngInput" placeholder="106.800000">
+          </div>
+          <div class="field">
+            <label for="radiusInput">Radius diizinkan (meter)</label>
+            <input type="number" id="radiusInput" placeholder="100">
+          </div>
+          <div class="field">
+            <label for="jamMasukInput">Jam masuk (batas telat)</label>
+            <input type="time" id="jamMasukInput">
+          </div>
+          <button type="button" class="btn btn-garis" id="btnAmbilLokasiSaya" style="margin-bottom:14px;">📍 Pakai lokasi saya sekarang</button>
+          <button type="submit" class="btn btn-hijau">Simpan Pengaturan</button>
+        </form>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../assets/js/supabase-client.js"></script>
+<script src="../assets/js/admin.js"></script>
+</body>
+</html>
