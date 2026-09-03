@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Admin — SMK NU Ghofarona</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<div class="admin-shell">
+  <aside class="admin-sisi">
+    <div class="brand">
+      <div class="brand-mark">NG</div>
+      <div class="brand-text"><strong style="color:#fff;">Admin Panel</strong></div>
+    </div>
+    <nav class="admin-nav">
+      <a href="#ringkasan" class="aktif" data-tab="ringkasan">📊 Ringkasan</a>
+      <a href="#informasi" data-tab="informasi">📰 Informasi</a>
+      <a href="#presensi" data-tab="presensi">✅ Presensi</a>
+      <a href="#siswa" data-tab="siswa">🎓 Siswa</a>
+      <a href="#kelas" data-tab="kelas">🏫 Kelas &amp; Wali Kelas</a>
+      <a href="#pengaturan" data-tab="pengaturan">⚙️ Pengaturan Lokasi</a>
+      <a href="#" id="btnKeluarAdmin" style="margin-top:20px; border-top:1px solid rgba(247,243,233,.15); padding-top:16px;">↩ Keluar</a>
+    </nav>
+  </aside>
+
+  <main class="admin-utama">
+    <div class="admin-topbar">
+      <h1 style="font-size:1.4rem; margin:0;">Dashboard Admin</h1>
+      <span id="adminEmail" style="font-size:.85rem; color:var(--tinta-lembut);"></span>
+    </div>
+
+    <div class="kartu-stat-grid">
+      <div class="kartu-stat">
+        <div class="angka" id="statTotalSiswa">–</div>
+        <div class="label">Total siswa terdaftar</div>
+      </div>
+      <div class="kartu-stat">
+        <div class="angka" id="statHadirHariIni">–</div>
+        <div class="label">Hadir hari ini</div>
+      </div>
+      <div class="kartu-stat">
+        <div class="angka" id="statTelatHariIni">–</div>
+        <div class="label">Telat hari ini</div>
+      </div>
+      <div class="kartu-stat">
+        <div class="angka" id="statInformasi">–</div>
+        <div class="label">Informasi dipublikasikan</div>
+      </div>
+    </div>
+
+    <!-- TAB: Informasi -->
+    <section id="tabInformasi" class="tab-konten">
+      <div class="panel">
+        <div class="panel-judul">
+          <h2>Tambah Informasi</h2>
+        </div>
+        <div class="pesan" id="pesanInformasi"></div>
+        <form id="formInformasi">
+          <div class="field">
+            <label for="judulInfo">Judul</label>
+            <input type="text" id="judulInfo" required placeholder="Contoh: Libur Semester Ganjil">
+          </div>
+          <div class="field">
+            <label for="kategoriInfo">Kategori</label>
+            <input type="text" id="kategoriInfo" placeholder="Pengumuman / Kegiatan / Prestasi">
+          </div>
+          <div class="field">
+            <label for="kontenInfo">Isi</label>
+            <textarea id="kontenInfo" rows="4" required placeholder="Tulis isi pengumuman di sini…"></textarea>
+          </div>
+          <button type="submit" class="btn btn-hijau">Publikasikan</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="panel-judul"><h2>Daftar Informasi</h2></div>
+        <table>
+          <thead><tr><th>Tanggal</th><th>Judul</th><th>Kategori</th><th>Aksi</th></tr></thead>
+          <tbody id="tabelInformasi"><tr><td colspan="4">Memuat…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB: Presensi -->
+    <section id="tabPresensi" class="tab-konten" style="display:none;">
+      <div class="panel">
+        <div class="panel-judul">
+          <h2>Presensi</h2>
+          <button type="button" class="btn btn-garis" id="btnUnduhExcel">⬇ Unduh Excel</button>
+        </div>
+
+        <div style="display:flex; gap:14px; flex-wrap:wrap; margin-bottom:18px;">
+          <div class="field" style="margin-bottom:0;">
+            <label for="filterTanggal">Tanggal</label>
+            <input type="date" id="filterTanggal">
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label for="filterKelas">Kelas</label>
+            <select id="filterKelas">
+              <option value="">Semua kelas</option>
+            </select>
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label for="filterStatus">Status</label>
+            <select id="filterStatus">
+              <option value="">Semua status</option>
+              <option value="hadir">Hadir</option>
+              <option value="telat">Telat</option>
+            </select>
+          </div>
+        </div>
+
+        <table>
+          <thead><tr><th>Siswa</th><th>Kelas</th><th>Waktu</th><th>Status</th><th>Jarak</th></tr></thead>
+          <tbody id="tabelPresensi"><tr><td colspan="5">Memuat…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB: Siswa -->
+    <section id="tabSiswa" class="tab-konten" style="display:none;">
+      <div class="panel">
+        <div class="panel-judul"><h2>Tambah Siswa</h2></div>
+        <div class="pesan" id="pesanSiswa"></div>
+        <form id="formSiswa">
+          <div class="field">
+            <label for="namaSiswaInput">Nama Lengkap</label>
+            <input type="text" id="namaSiswaInput" required>
+          </div>
+          <div class="field">
+            <label for="nisnInput">NISN</label>
+            <input type="text" id="nisnInput">
+          </div>
+          <div class="field">
+            <label for="kelasSiswaInput">Kelas</label>
+            <select id="kelasSiswaInput" required>
+              <option value="">— pilih kelas —</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="emailSiswaInput">Email (untuk login)</label>
+            <input type="email" id="emailSiswaInput" required placeholder="nama@smknughofarona.sch.id">
+          </div>
+          <div class="field">
+            <label for="passwordSiswaInput">Kata sandi awal</label>
+            <input type="text" id="passwordSiswaInput" required placeholder="Minimal 6 karakter">
+          </div>
+          <button type="submit" class="btn btn-hijau" id="btnTambahSiswa">Tambah Siswa</button>
+        </form>
+        <p style="font-size:.82rem; color:var(--tinta-lembut); margin-top:12px;">
+          Tambahkan kelas dulu di tab "Kelas &amp; Wali Kelas" kalau daftar kelas di atas masih kosong.
+          Siswa bisa langsung login pakai email &amp; kata sandi ini; wajahnya otomatis terdaftar saat presensi pertama.
+        </p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-judul"><h2>Daftar Siswa</h2></div>
+        <table>
+          <thead><tr><th>Nama</th><th>NISN</th><th>Kelas</th><th>Jurusan</th><th>Wajah Terdaftar</th></tr></thead>
+          <tbody id="tabelSiswa"><tr><td colspan="5">Memuat…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB: Kelas & Wali Kelas -->
+    <section id="tabKelas" class="tab-konten" style="display:none;">
+      <div class="panel">
+        <div class="panel-judul"><h2>Tambah Kelas</h2></div>
+        <div class="pesan" id="pesanKelas"></div>
+        <form id="formKelas">
+          <div class="field">
+            <label for="namaKelasInput">Nama Kelas</label>
+            <input type="text" id="namaKelasInput" required placeholder="Contoh: XII RPL 1">
+          </div>
+          <div class="field">
+            <label for="waliKelasInput">Wali Kelas</label>
+            <input type="text" id="waliKelasInput" placeholder="Nama wali kelas">
+          </div>
+          <div class="field">
+            <label for="jurusanKelasInput">Jurusan</label>
+            <input type="text" id="jurusanKelasInput" placeholder="Contoh: RPL">
+          </div>
+          <button type="submit" class="btn btn-hijau">Tambah Kelas</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="panel-judul"><h2>Daftar Kelas</h2></div>
+        <table>
+          <thead><tr><th>Kelas</th><th>Wali Kelas</th><th>Jurusan</th><th>Aksi</th></tr></thead>
+          <tbody id="tabelKelas"><tr><td colspan="4">Memuat…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB: Pengaturan Lokasi -->
+    <section id="tabPengaturan" class="tab-konten" style="display:none;">
+      <div class="panel">
+        <div class="panel-judul"><h2>Titik Lokasi &amp; Radius Sekolah</h2></div>
+        <div class="pesan" id="pesanPengaturan"></div>
+        <form id="formPengaturan">
+          <div class="field">
+            <label for="namaSekolahInput">Nama Sekolah</label>
+            <input type="text" id="namaSekolahInput">
+          </div>
+          <div class="field">
+            <label for="latInput">Latitude</label>
+            <input type="text" id="latInput" placeholder="-6.200000">
+          </div>
+          <div class="field">
+            <label for="lngInput">Longitude</label>
+            <input type="text" id="lngInput" placeholder="106.800000">
+          </div>
+          <div class="field">
+            <label for="radiusInput">Radius diizinkan (meter)</label>
+            <input type="number" id="radiusInput" placeholder="100">
+          </div>
+          <div class="field">
+            <label for="jamMasukInput">Jam masuk (batas telat)</label>
+            <input type="time" id="jamMasukInput">
+          </div>
+          <button type="button" class="btn btn-garis" id="btnAmbilLokasiSaya" style="margin-bottom:14px;">📍 Pakai lokasi saya sekarang</button>
+          <button type="submit" class="btn btn-hijau">Simpan Pengaturan</button>
+        </form>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="../assets/js/supabase-client.js"></script>
+<script src="../assets/js/admin.js"></script>
+</body>
+</html>
