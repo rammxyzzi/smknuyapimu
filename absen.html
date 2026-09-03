@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presensi — SMK NU Ghofarona</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="container">
+    <a href="index.html" class="brand">
+      <div class="brand-mark">NG</div>
+      <div class="brand-text">
+        <strong>SMK NU Ghofarona</strong>
+        <span>Presensi Siswa</span>
+      </div>
+    </a>
+    <nav class="nav-links" style="display:flex;">
+      <span id="namaSiswa" style="color:rgba(255,255,255,.8); font-size:.9rem;"></span>
+      <a href="#" id="btnKeluar" class="nav-cta">Keluar</a>
+    </nav>
+  </div>
+</header>
+
+<section style="padding-top:44px;">
+  <div class="container">
+    <div class="panel-absen">
+
+      <div class="langkah-absen">
+        <div class="titik aktif" id="titik1">1</div>
+        <div class="garis-langkah"></div>
+        <div class="titik" id="titik2">2</div>
+        <div class="garis-langkah"></div>
+        <div class="titik" id="titik3">3</div>
+      </div>
+
+      <!-- LANGKAH 1: cek lokasi -->
+      <div id="langkahLokasi">
+        <h2 style="font-size:1.2rem;">Cek Lokasi</h2>
+        <p style="font-size:.9rem;">Pastikan kamu berada di area sekolah. Sistem akan mengecek jarak GPS-mu ke titik sekolah.</p>
+        <div class="status-baris" id="statusLokasi">
+          <span class="lampu"></span>
+          <span>Menunggu izin lokasi…</span>
+        </div>
+        <button class="btn btn-hijau btn-blok" id="btnCekLokasi">Izinkan &amp; Cek Lokasi</button>
+      </div>
+
+      <!-- LANGKAH 2: scan wajah -->
+      <div id="langkahWajah" style="display:none;">
+        <h2 style="font-size:1.2rem;">Pindai Wajah</h2>
+        <p style="font-size:.9rem;" id="keteranganWajah">Posisikan wajahmu di tengah kamera, pastikan pencahayaan cukup.</p>
+
+        <div class="kamera-bungkus" id="kameraBungkus">
+          <video id="video" autoplay muted playsinline></video>
+          <canvas id="overlay"></canvas>
+        </div>
+
+        <div class="status-baris" id="statusWajah">
+          <span class="lampu"></span>
+          <span id="statusWajahTeks">Memuat model pengenalan wajah…</span>
+        </div>
+
+        <button class="btn btn-hijau btn-blok" id="btnPindai" disabled>Pindai Sekarang</button>
+      </div>
+
+      <!-- LANGKAH 3: hasil -->
+      <div id="langkahHasil" style="display:none; text-align:center;">
+        <h2 style="font-size:1.2rem;" id="judulHasil">Memproses…</h2>
+        <p id="deskripsiHasil" style="font-size:.9rem;"></p>
+        <a href="index.html" class="btn btn-hijau" style="margin-top:10px;">Selesai</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+<script src="assets/js/supabase-client.js"></script>
+<script src="assets/js/absen.js"></script>
+</body>
+</html>
